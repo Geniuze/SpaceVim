@@ -156,6 +156,7 @@ function! s:list_project_files(dir, cscope_files, cscope_db, load) abort
     let list_files_command = ['rg', '--color=never', '--files', a:dir]
   endif
   let jobid = s:JOB.start(list_files_command, {
+" let jobid = s:JOB.start(['rg', '--color=never', '--type=c', '--type=cpp', '--type=sh',  '--files', a:dir], {
         \ 'on_stdout' : function('s:list_files_stdout'),
         \ 'on_exit' : function('s:list_files_exit')
         \ })
