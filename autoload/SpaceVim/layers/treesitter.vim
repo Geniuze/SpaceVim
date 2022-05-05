@@ -27,7 +27,9 @@ function! SpaceVim#layers#treesitter#setup() abort
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
-    enable = true,
+    ensure_installed = { "c", "lua", "cpp" },
+    sync_install = true,
+    enable = {"c", "cpp"},
     additional_vim_regex_highlighting = false,
   },
 }
