@@ -182,7 +182,7 @@ endfunction
 " Create databases for current project
 function! cscope#create_databeses() abort
   let dir = SpaceVim#plugins#projectmanager#current_root()
-  call s:init_database(dir, 0)
+  call s:init_database(dir, 1)
 endfunction
 
 
