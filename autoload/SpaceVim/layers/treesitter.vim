@@ -23,6 +23,17 @@ function! SpaceVim#layers#treesitter#plugins() abort
   return plugins
 endfunction
 
+function! SpaceVim#layers#treesitter#setup() abort
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+}
+EOF
+endfunction
+
 function! SpaceVim#layers#treesitter#health() abort
   call SpaceVim#layers#treesitter#plugins()
   return 1
