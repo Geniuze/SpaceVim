@@ -79,7 +79,7 @@ endfunction
 
 function! SpaceVim#layers#cscope#plugins() abort
   let plugins = [
-        \ [g:_spacevim_root_dir . 'bundle/cscope.vim', {'merged' : 0}],
+        \ [g:_spacevim_root_dir . 'bundle/cscope.vim', {'merged' : 0, 'loadconf' : 1}],
         \ ]
   return plugins
 endfunction
@@ -110,12 +110,15 @@ function! SpaceVim#layers#cscope#config() abort
   let g:cscope_auto_update = s:auto_update
 endfunction
 
-
 function! SpaceVim#layers#cscope#health() abort
   call SpaceVim#layers#cscope#plugins()
   call SpaceVim#layers#cscope#config()
   return 1
 endfunction
+
+function! SpaceVim#layers#cscope#setup() abort
+endfunction
+
 
 function! SpaceVim#layers#cscope#set_variable(var) abort
 

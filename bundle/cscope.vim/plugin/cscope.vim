@@ -52,3 +52,5 @@ endif
 
 
 call cscope#loadIndex()
+call cscope#AutoloadDB(SpaceVim#plugins#projectmanager#current_root(), 0)
+

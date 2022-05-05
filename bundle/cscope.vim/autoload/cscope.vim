@@ -217,6 +217,12 @@ function! s:updateDBs(dirs) abort
   endfor
 endfunction
 
+function! cscope#AutoloadDB(dir, create) abort
+	let m_dir = s:GetBestPath(a:dir)
+	if m_dir != '' || a:create == 1
+		call s:AutoloadDB(a:dir)
+	endif
+endfunction
 
 ""
 " clear databases
