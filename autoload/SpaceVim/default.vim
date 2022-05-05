@@ -44,7 +44,9 @@ function! SpaceVim#default#options() abort
   " nocompatible ,you need this
   set backspace=indent,eol,start
   set nrformats-=octal
-  set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
+  " set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
+  set listchars=tab:»\ 
+  set invlist
   set fillchars=vert:│,fold:·
 
   set laststatus=2
