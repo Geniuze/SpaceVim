@@ -48,6 +48,8 @@ function! SpaceVim#default#options() abort
   set listchars=tab:»\ 
   set invlist
   set fillchars=vert:│,fold:·
+  set ignorecase
+  set smartcase
 
   set laststatus=2
 
@@ -273,6 +275,10 @@ function! SpaceVim#default#keyBindings() abort
   nnoremap <silent><M-5> :<C-u>call <SID>tobur(5)<CR>
   nnoremap <silent><M-Right> :<C-U>call <SID>tobur("next")<CR>
   nnoremap <silent><M-Left> :<C-U>call <SID>tobur("prev")<CR>
+
+  nnoremap <silent><Leader>= :s/	/    /g<CR>:noh<CR>
+  xnoremap <silent><Leader>= :s/	/    /g<CR>:noh<CR>
+  vnoremap <silent><Leader>= :s/	/    /g<CR>:noh<CR>
 
 endfunction
 
