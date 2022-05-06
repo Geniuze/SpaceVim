@@ -47,7 +47,6 @@ function! SpaceVim#default#options() abort
   " set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
   set listchars=tab:»\ 
   set invlist
-  set shada=
   set fillchars=vert:│,fold:·
 
   set laststatus=2
