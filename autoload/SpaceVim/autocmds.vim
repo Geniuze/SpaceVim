@@ -65,7 +65,7 @@ function! SpaceVim#autocmds#init() abort
     autocmd SessionLoadPost * let g:_spacevim_session_loaded = 1
     autocmd VimLeavePre * call SpaceVim#plugins#manager#terminal()
     if has('nvim')
-      autocmd CursorHold,FocusGained,FocusLost * rshada|wshada
+"      autocmd CursorHold,FocusGained,FocusLost * rshada|wshada
     endif
   augroup END
 endfunction
