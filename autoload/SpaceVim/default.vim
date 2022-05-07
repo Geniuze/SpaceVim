@@ -50,6 +50,9 @@ function! SpaceVim#default#options() abort
   set fillchars=vert:│,fold:·
   set ignorecase
   set smartcase
+  if (has("nvim"))
+    set shada=
+  endif
 
   set laststatus=2
 
