@@ -98,7 +98,7 @@ function! SpaceVim#layers#cscope#config() abort
   call SpaceVim#mapping#space#def('nnoremap', ['m', 'c', 'e'], 'call cscope#find("e", expand("<cword>"))', 'Find-this-egrep-pattern', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['m', 'c', 't'], 'call cscope#find("t", expand("<cword>"))', 'find-this-text-string', 1)
   call SpaceVim#mapping#def(      'nnoremap<silent>', '<leader>gg',   ':call cscope#find("t", expand("<cword>"))<CR>', 'find-this-text-string', 1)
-  command! -nargs=* GS call cscope#find("t", "<f-args>")
+  command! -nargs=* GS call cscope#find("t", <q-args>)
   call SpaceVim#mapping#space#def('nnoremap', ['m', 'c', '='], 'call cscope#find("a", expand("<cword>"))', 'find-assignments-to-this-symbol', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['m', 'c', 'u'], 'call cscope#update_databeses()', 'create-cscope-index', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['m', 'c', 'i'], 'call cscope#create_databeses()', 'create-cscope-databases', 1)
