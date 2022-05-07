@@ -59,6 +59,8 @@ function! SpaceVim#layers#shell#config() abort
           \ ]
           \ ], 1)
 
+  nnoremap <silent><F5> :call <SID>open_default_shell(1)<CR>
+
   if has('nvim') || exists(':tnoremap') == 2
     exe 'tnoremap <silent><C-Right> <C-\><C-n>:<C-u>wincmd l<CR>'
     exe 'tnoremap <silent><C-Left>  <C-\><C-n>:<C-u>wincmd h<CR>'
