@@ -59,7 +59,7 @@ function! SpaceVim#layers#shell#config() abort
           \ ]
           \ ], 1)
 
-  nnoremap <silent><F5> :call <SID>open_default_shell(1)<CR>
+  nnoremap <silent><F5> :call <SID>open_default_shell(0)<CR>
 "  nnoremap <silent><F6> :call SpaceVim#layers#shell#close_terminal()<CR>
 
   if has('nvim') || exists(':tnoremap') == 2
@@ -217,6 +217,9 @@ function! s:open_default_shell(open_with_file_cwd) abort
     let lines = &lines * s:default_height / 100
     if lines < winheight(0) && (s:default_position ==# 'top' || s:default_position ==# 'bottom')
       exe 'resize ' . lines
+    endif
+    if (s:default_position ==# 'right' || s:default_position ==# 'left')
+      exe 'vertical resize ' . 60
     endif
   endif
   let w:shell_layer_win = 1
