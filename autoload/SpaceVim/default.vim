@@ -135,7 +135,8 @@ function! SpaceVim#default#options() abort
   set incsearch
   set hlsearch
   set wildignorecase
-  set mouse=nv
+"  set mouse=nv
+  set mouse=a
   set hidden
   set ttimeout
   set ttimeoutlen=50
