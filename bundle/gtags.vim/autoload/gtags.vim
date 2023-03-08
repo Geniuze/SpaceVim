@@ -490,6 +490,7 @@ function! gtags#update(single_update) abort
   let cmd += ['-O', dir]
   call s:LOGGER.debug('      gtags cmd:' . string(cmd))
   call s:LOGGER.debug('   gtags job id:' . s:JOB.start(cmd, {'on_exit' : funcref('s:on_update_exit')}))
+  call s:JOB.start(cmd, {'on_exit' : funcref('s:on_update_exit')})
 endfunction
 
 function! s:on_update_exit(id, data, event) abort
