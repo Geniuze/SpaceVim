@@ -148,6 +148,8 @@ function! s:list_files_exit(id, date, event) abort
   endif
 endfunction
 
+" let jobid = s:JOB.start(['rg', '--color=never', '--type=c', '--type=cpp', '--type=sh',  '--files', a:dir], {
+
 function! s:list_project_files(dir, cscope_files, cscope_db, load) abort
   if exists('g:cscope_list_files_command')
         \ && type(g:cscope_list_files_command) ==# type([])
@@ -156,7 +158,6 @@ function! s:list_project_files(dir, cscope_files, cscope_db, load) abort
     let list_files_command = ['rg', '--color=never', '--files', a:dir]
   endif
   let jobid = s:JOB.start(list_files_command, {
-" let jobid = s:JOB.start(['rg', '--color=never', '--type=c', '--type=cpp', '--type=sh',  '--files', a:dir], {
         \ 'on_stdout' : function('s:list_files_stdout'),
         \ 'on_exit' : function('s:list_files_exit')
         \ })

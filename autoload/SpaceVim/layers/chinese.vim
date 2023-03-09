@@ -46,6 +46,7 @@ function! SpaceVim#layers#chinese#config() abort
   call SpaceVim#mapping#space#def('nnoremap', ['l', 'c']     , 'CheckChinese', 'Check with ChineseLinter', 1)
   let g:_spacevim_mappings_space.n.c = {'name' : '+Convert'}
   call SpaceVim#mapping#space#def('nmap', ['n', 'c', 'd'], '<Plug>ConvertChineseNumberToDigit', 'convert Chinese number to digit', 0, 1)
+  nnoremap <C-t> :TranslateW <CR>
   " do not load vimcdoc plugin 
   let g:loaded_vimcdoc = 1
 endfunction
