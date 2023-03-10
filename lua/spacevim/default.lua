@@ -54,7 +54,9 @@ function M.options()
     --  nocompatible ,you need this
     vim.o.backspace = "indent,eol,start"
     vim.opt.nrformats:remove({"octal"})
-    vim.o.listchars = "tab:→ ,eol:↵,trail:·,extends:↷,precedes:↶"
+--    vim.o.listchars = "tab:→ ,eol:↵,trail:·,extends:↷,precedes:↶"
+    vim.o.listchars = "tab:» "
+    vim.api.nvim_command("set invlist")
     vim.o.fillchars = "vert:│,fold:·"
     vim.o.laststatus = 2
 
