@@ -39,7 +39,7 @@ endif
 
 let s:lint_exclude_filetype = []
 let s:lint_on_the_fly = 0
-let s:lint_on_save = 1
+let s:lint_on_save = 0
 let s:open_error_list = 0
 
 let s:SIG = SpaceVim#api#import('vim#signatures')

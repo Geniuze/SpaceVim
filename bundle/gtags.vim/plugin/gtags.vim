@@ -146,5 +146,7 @@ command! -nargs=0 GtagsRemind call gtags#remind()
 " Update gtags for current file, with a {bang}, will update the project's
 " gtags database.
 " command! -nargs=0 -bang GtagsGenerate call gtags#update(<bang>1)
-command! -nargs=0 -bar -bang GtagsGenerate call gtags#update(<bang>1) | call ctags#update(<bang>1)
-command! -nargs=0 -bar -bang Update call gtags#update(<bang>1) | call ctags#update(<bang>1) | call cscope#create_databeses()
+" command! -nargs=0 -bar -bang GtagsGenerate call gtags#update(<bang>1) | call ctags#update(<bang>1)
+" command! -nargs=0 -bar -bang Update call gtags#update(<bang>1) | call ctags#update(<bang>1) | call cscope#create_databeses()
+command! -nargs=0 -bar -bang GtagsGenerate call gtags#update(<bang>1)
+command! -nargs=0 -bar -bang Update call gtags#update(<bang>1) | call cscope#create_databeses()
