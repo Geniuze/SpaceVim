@@ -137,7 +137,8 @@ function M.options()
     vim.o.incsearch = true
     vim.o.hlsearch = true
     vim.o.wildignorecase = true
-    vim.o.mouse = "nv"
+--    vim.o.mouse = "nv"
+    vim.o.mouse = "a"
     vim.o.hidden = true
     vim.o.ttimeout = true
     vim.o.ttimeoutlen = 50

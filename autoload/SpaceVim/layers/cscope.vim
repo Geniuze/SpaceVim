@@ -111,6 +111,7 @@ function! SpaceVim#layers#cscope#config() abort
   " setting cscope.vim based on layer options
   let g:cscope_cmd = s:cscope_command
   let g:cscope_auto_update = s:auto_update
+  set cscopetag
 endfunction
 
 function! SpaceVim#layers#cscope#health() abort
