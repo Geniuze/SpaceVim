@@ -59,6 +59,18 @@ let s:dbs = {}
 
 let s:gtags_cache_dir = s:FILE.unify_path('~/.cache/SpaceVim/tags/')
 
+function! s:cscope_db_file(dir) abort
+  if g:gtags_cscope
+    return s:gtags_cache_dir . a:dir . "/GTAGS"
+  else
+    return s:cscope_cache_dir . a:dir . "/cscope.db"
+  endif
+
+  return s:cscope_cache_dir . a:dir . "/cscope.db"
+
+endfunction
+
+
 ""
 " search your {word} with {action} in the database suitable for current
 " file.
@@ -207,7 +219,7 @@ function! s:AutoloadDB(dir) abort
     endif
   else
     let id = s:dbs[m_dir]['id']
-    if cscope_connection(2, s:cscope_cache_dir. m_dir .'/cscope.db') == 0
+    if cscope_connection(2, s:cscope_db_file(m_dir)) == 0
       call s:LoadDB(s:dbs[m_dir].root)
     endif
   endif
@@ -238,12 +250,12 @@ function! cscope#clear_databases(...) abort
   else
     let dir = s:FILE.path_to_fname(a:1)
     call delete(s:cscope_cache_dir. dir . '/cscope.files')
-    call delete(s:cscope_cache_dir. dir . '/cscope.db')
+    call delete(s:cscope_db_file(dir))
     unlet s:dbs[a:1]
     let message = 'databases cleared:' . a:1
     let s:notify.notify_max_width = strwidth(message) + 10
     call s:notify.notify(message, 'WarningMsg')
-    call s:logger.info('database cleared: ' . s:cscope_cache_dir. dir .'/cscope.db')
+    call s:logger.info('database cleared: ' . s:cscope_db_file(dir))
     call s:FlushIndex()
   endif
 endfunction
@@ -340,10 +352,8 @@ function! s:LoadDB(dir) abort
     if (empty($GTAGSDBPATH))
       let $GTAGSDBPATH = s:gtags_cache_dir . dir
     endif
-    call s:add_databases(s:gtags_cache_dir . dir .'/GTAGS')
-  else
-    call s:add_databases(s:cscope_cache_dir . dir .'/cscope.db')
   endif
+  call s:add_databases(s:cscope_db_file(dir))
   let s:dbs[a:dir]['loadtimes'] = s:dbs[a:dir]['loadtimes'] + 1
   call s:FlushIndex()
 endfunction
@@ -357,7 +367,7 @@ function! cscope#list_databases() abort
   else
     for d in dirs
       let id = s:dbs[d]['id']
-      if cscope_connection(2, s:cscope_cache_dir. d . '/cscope.db') == 1
+      if cscope_connection(2, s:cscope_db_file(d)) == 1
         " let l = printf('* %s                   %d', s:dbs[d].root, )
         let l = {
               \ 'project' : '* ' .d,
@@ -448,7 +458,7 @@ let s:create_db_process = {}
 function! s:create_database(dir, init, load) abort
   let dir = s:FILE.path_to_fname(a:dir)
   let cscope_files = s:cscope_cache_dir . dir . '/cscope.files'
-  let cscope_db = s:cscope_cache_dir . dir . '/cscope.db'
+  let cscope_db = s:cscope_db_file(dir)
   try
     exec 'silent cs kill '.cscope_db
   catch
@@ -462,19 +472,30 @@ function! s:create_database(dir, init, load) abort
 endfunction
 
 function! s:run_create_database_job(dir, cscope_files, cscope_db, load) abort
-  if !executable(g:cscope_cmd)
+  if g:gtags_cscope
+    if (empty($GTAGSROOT))
+      let $GTAGSROOT = SpaceVim#plugins#projectmanager#current_root()
+    endif
+    if (empty($GTAGSDBPATH))
+      let $GTAGSDBPATH = s:gtags_cache_dir . s:FILE.path_to_fname(a:dir)
+    endif
+    call gtags#update(0)
+
+  else
+    if !executable(g:cscope_cmd)
       call s:notify.notify('''cscope'' is not executable!', 'WarningMsg')
       return
+    endif
+    let jobid = s:JOB.start([g:cscope_cmd, '-b', '-i', a:cscope_files, '-f', a:cscope_db], {
+          \ 'on_exit' : function('s:on_create_db_exit')
+          \ })
+    let s:create_db_process['jobid' . jobid] = {
+          \ 'jobid' : jobid,
+          \ 'dir' : a:dir,
+          \ 'load' : a:load,
+          \ 'cscope_db' : a:cscope_db,
+          \ }
   endif
-  let jobid = s:JOB.start([g:cscope_cmd, '-b', '-i', a:cscope_files, '-f', a:cscope_db], {
-        \ 'on_exit' : function('s:on_create_db_exit')
-        \ })
-  let s:create_db_process['jobid' . jobid] = {
-        \ 'jobid' : jobid,
-        \ 'dir' : a:dir,
-        \ 'load' : a:load,
-        \ 'cscope_db' : a:cscope_db,
-        \ }
 
 endfunction
 

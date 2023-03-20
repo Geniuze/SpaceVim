@@ -59,7 +59,6 @@ function! SpaceVim#layers#gtags#config() abort
   call SpaceVim#mapping#space#def('nnoremap', ['m', 'g', 's'], 'exe "Gtags -s " . expand("<cword>")', 'find-cursor-symbol', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['m', 'g', 'g'], 'exe "Gtags -g " . expand("<cword>")', 'find-cursor-string', 1)
   call SpaceVim#mapping#space#def('nnoremap', ['m', 'g', 'f'], 'Gtags -f %', 'list of objects', 1)
-"  call SpaceVim#mapping#def('nnoremap<silent>', 'C-]',    ':call gtags#global("-d" . expand("<cword>"))<CR>', 'find-global-definition-of-a-symbol', 1)
   let g:gtags_gtagslabel = s:gtagslabel
   call SpaceVim#plugins#projectmanager#reg_callback(function('s:update_ctags_option'))
   if s:auto_update
@@ -71,7 +70,7 @@ function! SpaceVim#layers#gtags#config() abort
       else
         call SpaceVim#logger#warn('gtags is not executable, the gtags database will not be updated automatically')
       endif
-      if executable('ctags')
+      if executable('ctags') && g:gtags_ctags_enable
         au BufWritePost * call ctags#update()
       else
         call SpaceVim#logger#warn('ctags is not executable, the ctags database will not be updated automatically')
@@ -96,6 +95,9 @@ function! SpaceVim#layers#gtags#set_variable(var) abort
   let g:gtags_ctags_bin = get(a:var,
         \ 'ctags_bin',
         \ 'ctags')
+  let g:gtags_ctags_enable = get(a:var,
+        \ 'ctags_enable',
+        \ 'true')
 endfunction
 
 function! SpaceVim#layers#gtags#health() abort

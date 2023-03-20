@@ -1,7 +1,12 @@
 scriptencoding utf-8
 
+<<<<<<< HEAD
 let s:LOGGER = SpaceVim#logger#derive('gtags')
 call s:LOGGER.start_debug()
+=======
+let s:LOGGER =SpaceVim#logger#derive('gtags')
+let s:notify = SpaceVim#api#import('notify')
+>>>>>>> use gtags-cscope instead of cscope
 
 if !executable('gtags')
   call s:LOGGER.warn('gtags is not executable, you need to install gnu global!')
@@ -490,12 +495,18 @@ function! gtags#update(single_update) abort
   let cmd += ['-O', dir]
   call s:LOGGER.debug('      gtags cmd:' . string(cmd))
   call s:LOGGER.debug('   gtags job id:' . s:JOB.start(cmd, {'on_exit' : funcref('s:on_update_exit')}))
+  let message = "start update GTAGS for " . SpaceVim#plugins#projectmanager#current_root()
+  call s:notify.notify(message, 'WarningMsg')
   call s:JOB.start(cmd, {'on_exit' : funcref('s:on_update_exit')})
 endfunction
 
 function! s:on_update_exit(id, data, event) abort
   if a:data > 0 && !g:gtags_silent
     call s:LOGGER.warn('failed to update gtags, exit data: ' . a:data)
+  endif
+  if a:data == 0 
+    let message = "GTAGS Database Created for " . SpaceVim#plugins#projectmanager#current_root()
+    call s:notify.notify(message, 'WarningMsg')
   endif
 endfunction
 

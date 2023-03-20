@@ -14,6 +14,7 @@ endif
 
 
 let s:LOGGER =SpaceVim#logger#derive('ctags')
+let s:notify = SpaceVim#api#import('notify')
 
 if !exists('g:gtags_ctags_bin')
   let g:gtags_ctags_bin = 'ctags'
@@ -78,6 +79,10 @@ function! ctags#update(...) abort
   if isdirectory(dir)
     let cmd += ['-R', '--extra=+f', '-o', dir . '/tags', project_root]
     call s:LOGGER.debug('ctags command:' . string(cmd))
+
+    let message = "start Create ctags database for " . project_root
+    call s:notify.notify(message, 'WarningMsg')
+
     let jobid = s:JOB.start(cmd, {
           \ 'on_stdout' : function('s:on_update_stdout'),
           \ 'on_stderr' : function('s:on_update_stderr'),
@@ -113,5 +118,8 @@ function! s:on_update_exit(id, data, event) abort
     call s:LOGGER.warn('failed to update gtags, exit data: ' . a:data)
   else
     call s:LOGGER.info('ctags database updated successfully')
+
+    let message = "CTAGS Database Created" 
+    call s:notify.notify(message, 'WarningMsg')
   endif
 endfunction
