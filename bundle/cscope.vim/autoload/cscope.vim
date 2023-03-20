@@ -57,6 +57,8 @@ let s:cscope_cache_dir = s:FILE.unify_path('~/.cache/SpaceVim/cscope/')
 let s:cscope_db_index = s:cscope_cache_dir.'index'
 let s:dbs = {}
 
+let s:gtags_cache_dir = s:FILE.unify_path('~/.cache/SpaceVim/tags/')
+
 ""
 " search your {word} with {action} in the database suitable for current
 " file.
@@ -149,7 +151,7 @@ function! s:list_files_exit(id, date, event) abort
 endfunction
 
 " let jobid = s:JOB.start(['rg', '--color=never', '--type=c', '--type=cpp', '--type=sh',  '--files', a:dir], {
-
+"
 function! s:list_project_files(dir, cscope_files, cscope_db, load) abort
   if exists('g:cscope_list_files_command')
         \ && type(g:cscope_list_files_command) ==# type([])
@@ -331,7 +333,17 @@ endfunction
 function! s:LoadDB(dir) abort
   let dir = s:FILE.path_to_fname(a:dir)
   silent cs kill -1
-  call s:add_databases(s:cscope_cache_dir . dir .'/cscope.db')
+  if g:gtags_cscope
+    if (empty($GTAGSROOT))
+      let $GTAGSROOT = SpaceVim#plugins#projectmanager#current_root()
+    endif
+    if (empty($GTAGSDBPATH))
+      let $GTAGSDBPATH = s:gtags_cache_dir . dir
+    endif
+    call s:add_databases(s:gtags_cache_dir . dir .'/GTAGS')
+  else
+    call s:add_databases(s:cscope_cache_dir . dir .'/cscope.db')
+  endif
   let s:dbs[a:dir]['loadtimes'] = s:dbs[a:dir]['loadtimes'] + 1
   call s:FlushIndex()
 endfunction

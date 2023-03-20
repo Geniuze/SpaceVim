@@ -69,6 +69,7 @@ endif
 let s:cscope_command = 'cscope'
 let s:auto_update = 1
 let s:list_files_command = ['rg', '--color=never', '--files']
+let s:gtags_cscope = 0
 
 function! SpaceVim#layers#cscope#loadable() abort
   
@@ -112,6 +113,9 @@ function! SpaceVim#layers#cscope#config() abort
   let g:cscope_cmd = s:cscope_command
   let g:cscope_auto_update = s:auto_update
   set cscopetag
+  if g:gtags_cscope
+    set cscopeprg=gtags-cscope
+  endif
 endfunction
 
 function! SpaceVim#layers#cscope#health() abort
@@ -141,6 +145,10 @@ function! SpaceVim#layers#cscope#set_variable(var) abort
   let g:cscope_list_files_command = get(a:var,
         \ 'list_files_command',
         \ s:list_files_command)
+
+  let g:gtags_cscope = get(a:var,
+        \ 'gtags_cscope',
+        \ s:gtags_cscope)
 
 endfunction
 
