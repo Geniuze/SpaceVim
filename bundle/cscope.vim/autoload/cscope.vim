@@ -479,7 +479,7 @@ function! s:run_create_database_job(dir, cscope_files, cscope_db, load) abort
     if (empty($GTAGSDBPATH))
       let $GTAGSDBPATH = s:gtags_cache_dir . s:FILE.path_to_fname(a:dir)
     endif
-    call gtags#update(0)
+    let jobid = gtags#update_outside(0, { 'on_exit' : function('s:on_create_db_exit') })
 
   else
     if !executable(g:cscope_cmd)
@@ -489,13 +489,14 @@ function! s:run_create_database_job(dir, cscope_files, cscope_db, load) abort
     let jobid = s:JOB.start([g:cscope_cmd, '-b', '-i', a:cscope_files, '-f', a:cscope_db], {
           \ 'on_exit' : function('s:on_create_db_exit')
           \ })
-    let s:create_db_process['jobid' . jobid] = {
-          \ 'jobid' : jobid,
-          \ 'dir' : a:dir,
-          \ 'load' : a:load,
-          \ 'cscope_db' : a:cscope_db,
-          \ }
   endif
+
+  let s:create_db_process['jobid' . jobid] = {
+        \ 'jobid' : jobid,
+        \ 'dir' : a:dir,
+        \ 'load' : a:load,
+        \ 'cscope_db' : a:cscope_db,
+        \ }
 
 endfunction
 

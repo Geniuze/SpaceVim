@@ -470,7 +470,6 @@ function! gtags#add_lib(path) abort
   echo $GTAGSLIBPATH
 endfunction
 
-
 function! gtags#update(single_update) abort
   call s:LOGGER.debug('start to update gtags database')
   let dir = s:FILE.unify_path(g:tags_cache_dir) 
@@ -498,6 +497,26 @@ function! gtags#update(single_update) abort
   let message = "start update GTAGS for " . SpaceVim#plugins#projectmanager#current_root()
   call s:notify.notify(message, 'WarningMsg')
   call s:JOB.start(cmd, {'on_exit' : funcref('s:on_update_exit')})
+endfunction
+function! gtags#update_outside(single_update, arg) abort
+  let dir = s:FILE.unify_path(g:tags_cache_dir) 
+        \ . s:FILE.path_to_fname(SpaceVim#plugins#projectmanager#current_root())
+  let cmd = ['gtags']
+  if !empty(g:gtags_gtagslabel)
+    let cmd += ['--gtagslabel=' . g:gtags_gtagslabel]
+  endif
+  if a:single_update && filereadable(dir . '/GTAGS')
+    let cmd += ['--single-update', expand('%:p')]
+  else
+    let cmd += ['--skip-unreadable']
+  endif
+  if !isdirectory(dir)
+    call mkdir(dir, 'p')
+  endif
+  let cmd += ['-O', dir]
+  let message = "start update GTAGS for " . SpaceVim#plugins#projectmanager#current_root()
+  call s:notify.notify(message, 'WarningMsg')
+  return s:JOB.start(cmd, a:arg)
 endfunction
 
 function! s:on_update_exit(id, data, event) abort
