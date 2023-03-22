@@ -496,8 +496,10 @@ function! gtags#update(single_update) abort
   call s:LOGGER.debug('   gtags job id:' . s:JOB.start(cmd, {'on_exit' : funcref('s:on_update_exit')}))
   let message = "start update GTAGS for " . SpaceVim#plugins#projectmanager#current_root()
   call s:notify.notify(message, 'WarningMsg')
+  let s:notify.notify_max_width = strwidth(message) + 10
   call s:JOB.start(cmd, {'on_exit' : funcref('s:on_update_exit')})
 endfunction
+
 function! gtags#update_outside(single_update, arg) abort
   let dir = s:FILE.unify_path(g:tags_cache_dir) 
         \ . s:FILE.path_to_fname(SpaceVim#plugins#projectmanager#current_root())
@@ -525,6 +527,7 @@ function! s:on_update_exit(id, data, event) abort
   endif
   if a:data == 0 
     let message = "GTAGS Database Created for " . SpaceVim#plugins#projectmanager#current_root()
+    let s:notify.notify_max_width = strwidth(message) + 10
     call s:notify.notify(message, 'WarningMsg')
   endif
 endfunction

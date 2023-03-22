@@ -70,6 +70,7 @@ let s:cscope_command = 'cscope'
 let s:auto_update = 1
 let s:list_files_command = ['rg', '--color=never', '--files']
 let s:gtags_cscope = 0
+let s:cscopetag = 0
 
 function! SpaceVim#layers#cscope#loadable() abort
   
@@ -112,7 +113,9 @@ function! SpaceVim#layers#cscope#config() abort
   " setting cscope.vim based on layer options
   let g:cscope_cmd = s:cscope_command
   let g:cscope_auto_update = s:auto_update
-  set cscopetag
+  if g:cscopetag
+    set cscopetag
+  endif
   if g:gtags_cscope
     set cscopeprg=gtags-cscope
   endif
@@ -149,6 +152,10 @@ function! SpaceVim#layers#cscope#set_variable(var) abort
   let g:gtags_cscope = get(a:var,
         \ 'gtags_cscope',
         \ s:gtags_cscope)
+
+  let g:cscopetag = get(a:var,
+        \ 'cscopetag',
+        \ s:cscopetag)
 
 endfunction
 

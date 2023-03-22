@@ -80,9 +80,6 @@ function! ctags#update(...) abort
     let cmd += ['-R', '--extra=+f', '-o', dir . '/tags', project_root]
     call s:LOGGER.debug('ctags command:' . string(cmd))
 
-    let message = "start Create ctags database for " . project_root
-    call s:notify.notify(message, 'WarningMsg')
-
     let jobid = s:JOB.start(cmd, {
           \ 'on_stdout' : function('s:on_update_stdout'),
           \ 'on_stderr' : function('s:on_update_stderr'),
@@ -90,6 +87,11 @@ function! ctags#update(...) abort
           \ })
     if jobid <= 0
       call s:LOGGER.debug('failed to start ctags job, return jobid:' . jobid)
+    endif
+    if jobid > 0
+      let message = "start update CTAGS for " . SpaceVim#plugins#projectmanager#current_root()
+      let s:notify.notify_max_width = strwidth(message) + 10
+      call s:notify.notify(message, 'WarningMsg')
     endif
   endif
 endfunction
@@ -119,7 +121,8 @@ function! s:on_update_exit(id, data, event) abort
   else
     call s:LOGGER.info('ctags database updated successfully')
 
-    let message = "CTAGS Database Created" 
+    let message = "CTAGS Database Created" . SpaceVim#plugins#projectmanager#current_root()
+    let s:notify.notify_max_width = strwidth(message) + 10
     call s:notify.notify(message, 'WarningMsg')
   endif
 endfunction
