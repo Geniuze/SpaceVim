@@ -153,6 +153,8 @@ function M.options()
     vim.o.foldtext = "SpaceVim#default#Customfoldtext()"
 
     logger.info("options init done")
+
+--	vim.lsp.set_log_level("debug")
 end
 
 return M
