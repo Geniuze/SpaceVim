@@ -90,8 +90,8 @@ function! cscope#find(action, word) abort
 "      exe ':silent cs f '.a:action.' '.a:word
       exe ':silent lcs f '.a:action.' '.a:word
       if g:cscope_open_location == 1
-        lw 5
-"         cw 5
+        lw
+"         cw
       endif
     catch
       let message = 'Can not find '.a:word.' with querytype as '.a:action.'.'
