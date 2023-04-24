@@ -1606,6 +1606,7 @@ function! SpaceVim#end() abort
   endif
   filetype plugin indent on
   syntax on
+  set list
 endfunction
 
 
