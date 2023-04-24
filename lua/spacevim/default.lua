@@ -56,7 +56,7 @@ function M.options()
     vim.opt.nrformats:remove({"octal"})
 --    vim.o.listchars = "tab:→ ,eol:↵,trail:·,extends:↷,precedes:↶"
     vim.o.listchars = "tab:» "
-    vim.api.nvim_command("set invlist")
+--    vim.api.nvim_command("set invlist")
     vim.o.fillchars = "vert:│,fold:·"
     vim.o.laststatus = 2
 
