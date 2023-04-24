@@ -1,12 +1,8 @@
 scriptencoding utf-8
 
-<<<<<<< HEAD
-let s:LOGGER = SpaceVim#logger#derive('gtags')
-call s:LOGGER.start_debug()
-=======
 let s:LOGGER =SpaceVim#logger#derive('gtags')
 let s:notify = SpaceVim#api#import('notify')
->>>>>>> use gtags-cscope instead of cscope
+call s:LOGGER.start_debug()
 
 if !executable('gtags')
   call s:LOGGER.warn('gtags is not executable, you need to install gnu global!')
