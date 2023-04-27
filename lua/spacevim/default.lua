@@ -152,6 +152,10 @@ function M.options()
 
     vim.o.foldtext = "SpaceVim#default#Customfoldtext()"
 
+    vim.api.nvim_command("set scrolloff=0")
+    vim.api.nvim_command("set sidescrolloff=0")
+    vim.api.nvim_command("set cursorcolumn")
+
     logger.info("options init done")
 
 --	vim.lsp.set_log_level("debug")

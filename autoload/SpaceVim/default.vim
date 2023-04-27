@@ -129,8 +129,10 @@ function! SpaceVim#default#options() abort
   set complete=.,w,b,u,t
   " limit completion menu height
   set pumheight=15
-  set scrolloff=1
-  set sidescrolloff=5
+  " set scrolloff=1
+  " set sidescrolloff=5
+  set scrolloff=0
+  set sidescrolloff=0
   set display+=lastline
   set incsearch
   set hlsearch
