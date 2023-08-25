@@ -154,7 +154,7 @@ function M.options()
 
     vim.api.nvim_command("set scrolloff=0")
     vim.api.nvim_command("set sidescrolloff=0")
-    vim.api.nvim_command("set cursorcolumn")
+--    vim.api.nvim_command("set cursorcolumn")
 
     logger.info("options init done")
 

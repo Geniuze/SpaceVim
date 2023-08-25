@@ -286,6 +286,13 @@ function! SpaceVim#default#keyBindings() abort
   xnoremap <silent><Leader>= :s/	/    /g<CR>:noh<CR>
   vnoremap <silent><Leader>= :s/	/    /g<CR>:noh<CR>
 
+
+  nmap <silent><Leader>9 :s/(\(\S\)/( \1/g<CR>:noh<CR>
+  xmap <silent><Leader>9 :s/(\(\S\)/( \1/g<CR>:noh<CR>
+  vmap <silent><Leader>9 :s/(\(\S\)/( \1/g<CR>:noh<CR>
+  nmap <silent><Leader>0 :s/\(\S\))/\1 )/g<CR>:noh<CR>
+  xmap <silent><Leader>0 :s/\(\S\))/\1 )/g<CR>:noh<CR>
+  vmap <silent><Leader>0 :s/\(\S\))/\1 )/g<CR>:noh<CR>
 endfunction
 
 fu! s:tobur(num) abort

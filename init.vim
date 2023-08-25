@@ -16,6 +16,11 @@ if &compatible
   set nocompatible
 endif
 
+
+if exists('g:vscode')
+call SpaceVim#logger#info('vscode neovim loading')
+else
+
 let g:_spacevim_root_dir = escape(fnamemodify(resolve(fnamemodify(expand('<sfile>'),
       \ ':p:h:gs?\\?'.((has('win16') || has('win32')
       \ || has('win64'))?'\':'/') . '?')), ':p:gs?[\\/]?/?'), ' ')
@@ -63,5 +68,6 @@ call SpaceVim#default#keyBindings()
 
 call SpaceVim#end()
 
+endif
 call SpaceVim#logger#info('finished loading SpaceVim!')
 " vim:set et sw=2 cc=80:

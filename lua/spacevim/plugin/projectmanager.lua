@@ -149,8 +149,8 @@ end
 local function compare(d1, d2)
   local al = #vim.split(d1, '/')
   local bl = #vim.split(d2, '/')
-  -- logger.debug('al is ' .. al)
-  -- logger.debug('bl is ' .. bl)
+  logger.debug('al is ' .. al)
+  logger.debug('bl is ' .. bl)
   -- the project_rooter_outermost is 0/false or 1 true
   if sp_opt.project_rooter_outermost == 0
     or sp_opt.project_rooter_outermost == false then
@@ -166,6 +166,7 @@ local function compare(d1, d2)
       return true
     end
   end
+  return false
 end
 
 local function sort_dirs(dirs)
@@ -227,6 +228,9 @@ local function find_root_directory()
         logger.info('ignore $HOME directory:' .. find_path)
       end
     end
+  end
+  for k,v in pairs(dirs) do
+  logger.warn('dirs: ' .. k .. '-' .. v)
   end
   return sort_dirs(dirs)
 end
